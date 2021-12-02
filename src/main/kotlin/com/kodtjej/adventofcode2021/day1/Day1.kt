@@ -4,7 +4,7 @@ import java.io.File
 
 
 fun main() {
-    val input = readFile("src/main/kotlin/com/kodtjej/adventofcode2021/day1/input1")
+    val input = readFile("src/main/kotlin/com/kodtjej/adventofcode2021/day1/input")
     val resultPart1 = amountOfTimesALargerNumberAppearsAfterASmaller(input)
     val resultMovingWindow = amountOfTimesInAMovingWindow(input)
     val resultPart2 = amountOfTimesALargerNumberAppearsAfterASmaller(resultMovingWindow)
