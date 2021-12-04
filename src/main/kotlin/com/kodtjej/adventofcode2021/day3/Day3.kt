@@ -4,8 +4,8 @@ import com.kodtjej.adventofcode2021.day1.readFile
 
 fun main() {
     val input = readFile("src/main/kotlin/com/kodtjej/adventofcode2021/day3/input")
-    val gammaRatePt1 = calculateGammaRate(input);
-    val epsilonRatePt1 = calculateEpsilonRate(input)
+    val gammaRatePt1 = calculateRate(input, ::gammaPredicate)
+    val epsilonRatePt1 = calculateRate(input, ::epsilonPredicate)
     val powerConsumption = gammaRatePt1 * epsilonRatePt1
 
     println("Part 1 gammaRate: $gammaRatePt1")
@@ -13,30 +13,20 @@ fun main() {
     println("Part 1 power consumption: $powerConsumption")
 }
 
-fun calculateGammaRate(input: List<String>): Int {
-    // do stuff here
-    val masseradInput = makeColumnsIntoRows(input);
-    var gammaBit = "";
-    for (column in masseradInput) {
-        val count = column.groupingBy { it }.eachCount()
-        if (count['0']!! > count['1']!!) {
-            gammaBit += "0";
-            continue
-        }
-        gammaBit += "1"
-
-    }
-
-    return Integer.parseInt(gammaBit, 2)
+fun gammaPredicate(zeros:Int, ones:Int):Boolean {
+    return zeros > ones
+}
+fun epsilonPredicate(zeros:Int, ones:Int):Boolean {
+    return zeros < ones
 }
 
-fun calculateEpsilonRate(input: List<String>): Int {
-    val masseradInput = makeColumnsIntoRows(input)
+fun calculateRate(input: List<String>, predFn: (val1:Int, val2:Int) -> Boolean): Int {
+    val flippedInput = makeColumnsIntoRows(input)
     var epsilonBit = ""
-    for (column in masseradInput) {
+    for (column in flippedInput) {
         val count = column.groupingBy { it }.eachCount()
-        if (count['0']!! < count['1']!!) {
-            epsilonBit += "0";
+        if (predFn(count['0']!!, count['1']!!)) {
+            epsilonBit += "0"
             continue
         }
         epsilonBit += "1"
@@ -47,15 +37,15 @@ fun calculateEpsilonRate(input: List<String>): Int {
 }
 
 fun makeColumnsIntoRows(input: List<String>): List<String> {
-    val omMippladLista = mutableListOf<String>()
+    val flippedValues = mutableListOf<String>()
 
     for (column in 0 until input[0].length) {
         var newRow = ""
         for (row in input) {
             newRow += row[column]
         }
-        omMippladLista.add(newRow);
+        flippedValues.add(newRow)
     }
 
-    return omMippladLista
+    return flippedValues
 }
