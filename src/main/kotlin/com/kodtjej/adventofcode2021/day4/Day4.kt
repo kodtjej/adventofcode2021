@@ -7,7 +7,6 @@ fun main() {
 
     val input = readFile("src/main/kotlin/com/kodtjej/adventofcode2021/day4/input")
     val numbersCalled = input[0].split(",").map { it.toInt() }
-    println(numbersCalled)
     val boards = parseBoards(input.subList(1, input.size))
     val checkedBoards = checkAllBoards(boards, numbersCalled)
 
@@ -68,7 +67,7 @@ fun parseBoards(list: List<String>):List<Board>{
         val b = Board()
         for (row in 0..4) {
             for (col in 0..4) {
-                b.numbers[row][col] = removeEmptyValues[i+row][col].toString().toInt()
+                b.numbers[row][col] = removeEmptyValues[i+row][col].toInt()
             }
         }
         boards.add(b)
@@ -119,7 +118,7 @@ class Board {
     }
 
     fun getSumOfUnmarked():Int{
-        var sum = 0;
+        var sum = 0
         for (row in 0..4){
             for(col in 0..4) {
                 if (!marked[row][col]) {
