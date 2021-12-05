@@ -11,10 +11,16 @@ fun main() {
     val checkedBoards = checkAllBoards(boards, numbersCalled)
 
     val firstBoardToWin = checkWinningBoard(checkedBoards, numbersCalled)
-    val sumOfUnmarked = firstBoardToWin.getSumOfUnmarked()
-    val finalScore = sumOfUnmarked * firstBoardToWin.winningNumberCalled
+    val lastBoardToWin = checkLosingBoard(checkedBoards, numbersCalled)
+    val sumOfUnmarkedWinner = firstBoardToWin.getSumOfUnmarked()
+    val sumOfUnmarkedLoser = lastBoardToWin.getSumOfUnmarked()
+    val finalScoreWinner = sumOfUnmarkedWinner * firstBoardToWin.winningNumberCalled
+    val finalScoreLoser = sumOfUnmarkedLoser * lastBoardToWin.winningNumberCalled
 
-    println("Final score: $finalScore")
+    println("---- Part 1 ----")
+    println("Final score: $finalScoreWinner")
+    println("---- Part 2 ----")
+    println("Final score: $finalScoreLoser")
 }
 
 fun checkWinningBoard(boards: List<Board>, numbersCalled: List<Int>): Board {
@@ -24,6 +30,18 @@ fun checkWinningBoard(boards: List<Board>, numbersCalled: List<Int>): Board {
         }
         if (winb.isNotEmpty()) {
             return winb[0]
+        }
+    }
+    throw Error("no winner")
+}
+
+fun checkLosingBoard(boards: List<Board>, numbersCalled: List<Int>): Board {
+    for (n in numbersCalled.reversed()) {
+        val losingBoard = boards.filter {
+            it.winningNumberCalled == n
+        }
+        if (losingBoard.isNotEmpty()) {
+            return losingBoard[0]
         }
     }
     throw Error("no winner")
