@@ -33,3 +33,4 @@ build/
 .vscode/
 
 input
+/src/main/kotlin/com/kodtjej/adventofcode2021/day6/test_input
